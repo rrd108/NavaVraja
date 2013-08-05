@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Nava Vraja</string>
+    <string name="action_settings">Beállítások</string>
+    
+    <string name="no_location_tap_here">Nincs elérhető helyzet információ. Bökj ide az engedélyezéshez.</string>
+    <string name="search_location">keresés..</string>
+    <string name="dontknow">\? m</string>
+    
+    <string name="you_are">A távolságod</string>
+    <string name="fromRS">Radhe-Syamatól</string>
+    
+    <string name="requestUserEnabling">A %s helyszolgáltatás le van tiltva. Szeretnéd bekapcsolni?</string>
+    <string name="yes">Igen</string>
+    <string name="no">Nem</string>
+    <string name="distance">Távolság</string>
+    <string name="darshan">Darshan</string>
+    <string name="podcast">Podcast</string>
+    <string name="blog">Blog</string>
+    <string name="donate">Adományok</string>
+    
+    <string name="contract">Radhe-Syama Szerződés</string>
+    <string name="projects">Projektek</string>
+    <string name="nityaseva">Nitya-seva</string>
+    <string name="sevapuja">Seva-puja</string>
+    <string name="goseva">Go seva</string>
+    <string name="service">Szolgálat</string>
+
+    <string name="url_podcast">http://www.sivaramaswami.com/hu/</string>
+    <string name="url_blog">http://navavrajadhama.hu/blog/</string>
+    
+</resources>

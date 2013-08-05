@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".NavaVraja" >
+
+    <TextView
+        android:id="@+id/youareText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/you_are"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/myLocationText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/youareText"
+        android:gravity="center"
+        android:text="@string/search_location"
+        android:textSize="100sp" />
+    
+    <TextView
+        android:id="@+id/fromRSText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/myLocationText"
+        android:gravity="center"
+        android:text="@string/fromRS"
+        android:textStyle="bold" />
+	
+	<TextView
+	    android:id="@+id/infoText"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:clickable="true"
+	    android:onClick="onClick" 
+	    android:gravity="center"
+	    android:text="@string/no_location_tap_here" />
+
+</RelativeLayout>
