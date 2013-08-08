@@ -16,7 +16,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,11 +25,15 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class NavaVraja extends FragmentActivity implements ActionBar.TabListener {
+public class NavaVraja extends FragmentActivity implements ActionBar.TabListener{
 	
 	private static final long minTime = 2000;		//2000 milliseconds = 2sec
 	private float minDistance = 10;					//10 meters
@@ -54,7 +57,24 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
-        // Create the adapter that will return a fragment for each of the three primary sections
+        createTabNavigation();
+		createLocationStuff();
+	}
+
+	protected void createLocationStuff() {
+		String context = Context.LOCATION_SERVICE;
+		locationManager = (LocationManager)getSystemService(context);
+				
+		provider = setProvider();
+		
+		Log.w("Nava Vraja", "provider: " + provider);
+		locationManager.requestLocationUpdates(provider, minTime, minDistance, locationListener);
+		Location location = locationManager.getLastKnownLocation(provider);
+		distance = getDistanceFromRS(location);
+	}
+
+	protected void createTabNavigation() {
+		// Create the adapter that will return a fragment for each of the three primary sections
         // of the app.
         azAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager(), getApplicationContext());
         // Set up the action bar.
@@ -87,16 +107,6 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
                             .setText(azAppSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
-		
-		String context = Context.LOCATION_SERVICE;
-		locationManager = (LocationManager)getSystemService(context);
-				
-		provider = setProvider();
-		
-		Log.w("Nava Vraja", "provider: " + provider);
-		locationManager.requestLocationUpdates(provider, minTime, minDistance, locationListener);
-		Location location = locationManager.getLastKnownLocation(provider);
-		distance = getDistanceFromRS(location);
 	}
 
 	protected String setProvider() {
@@ -156,8 +166,8 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
 	};
 	
 	@Override
-	protected void onRestart(){
-		super.onRestart();
+	protected void onResume(){
+		super.onResume();
 		provider = setProvider();
 	}
 	
@@ -210,7 +220,6 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
 					dist = distance + " m";
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -278,7 +287,7 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
 
         @Override
         public Fragment getItem(int i) {
-        	Log.w("Nava Vraja", "getItem() called");
+        	Log.w("Nava Vraja", "getItem("+i+") called");
             // The other sections of the app are dummy placeholders.
             Fragment fragment = new TheSectionFragment();
             Bundle args = new Bundle();
@@ -312,10 +321,14 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
     /**
      * A fragment representing a section of the app
      */
-    public static class TheSectionFragment extends Fragment {
+    public static class TheSectionFragment extends Fragment implements OnItemClickListener{
 
         public static final String ARG_SECTION_NUMBER = "section_number";
 		private ProgressBar progressBar;
+		private ListView donateList;
+
+		LayoutInflater layoutInflater;
+		ViewGroup theContainer;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -324,10 +337,13 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
             View rootView = null;
 			WebView myWebView;
 			WebSettings webSettings = null; 
-			
 			String url;
+        	layoutInflater = inflater;
+        	theContainer = container;
+
 			switch(args.getInt(ARG_SECTION_NUMBER)){
 				case 0:
+					//distance
 	                rootView = inflater.inflate(R.layout.your_distance, container, false);
 	                
 	                myLocationTextView = ((TextView) rootView.findViewById(R.id.myLocationText));
@@ -342,6 +358,7 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
 	                }
 	                break;
 				case 1:
+					//darshan
 	                rootView = inflater.inflate(R.layout.webview, container, false);
 	                progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
 	                myWebView = (WebView) rootView.findViewById(R.id.aWeb);
@@ -362,6 +379,7 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
 	                 * */
 	                break;				
 				case 2:
+					//podcast
 	                rootView = inflater.inflate(R.layout.webview, container, false);
 	                progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
 	                myWebView = (WebView) rootView.findViewById(R.id.aWeb);
@@ -391,6 +409,7 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
 	    			myWebView.loadUrl(url);
 	                break;
 				case 3:
+					//blog
 	                rootView = inflater.inflate(R.layout.webview, container, false);
 	                progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
 	                myWebView = (WebView) rootView.findViewById(R.id.aWeb);
@@ -406,30 +425,26 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
 	                myWebView.loadUrl(getString(R.string.url_blog));
 	                break;				
 				case 4:
+					//donate
 					rootView = inflater.inflate(R.layout.donate, container, false);
-					//rootView.findViewById(R.id.demo_collection_button).setOnClickListener(new View.OnClickListener() {
-					//    @Override
-					//    public void onClick(View view) {
-					//        Intent intent = new Intent(getActivity(), Donate.class);
-					//        startActivity(intent);
-					//    }
-					//});
-					
-					/*String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-							"Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-							"Linux", "OS/2" };
-					ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-							android.R.layout.simple_list_item_1, values);
-					setListAdapter(adapter);
-					rootView.findViewById(android.R.id.list).setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View view) {
-							Log.w("Nava Vraja", "case 4 : onClick(" + view.getId() + ") called");
-						}
-					});*/
+					donateList = (ListView) rootView.findViewById(android.R.id.list);
+					String[] values = getResources().getStringArray(R.array.donate_list);
+					ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, values);
+					donateList.setAdapter(adapter);
+					donateList.setOnItemClickListener(this);
 					break;				
 	        }
             return rootView;
         }
-    }    
+
+    	@Override
+    	public void onItemClick(AdapterView<?> listView, View textView, int position, long arg) {
+    		Log.w("Nava Vraja", "onItemClick(" + position + ": " + donateList.getItemAtPosition(position) + ") called");
+    		Intent intent = new Intent("cc.webmania.android.navavraja.DONATE_DETAIL");
+   			intent.putExtra("detail", position);
+    		startActivity(intent);
+    	}
+    }
+
+  
 }
