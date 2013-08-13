@@ -10,12 +10,12 @@
     </string-array>
 
     <string-array name="donate_details">
-        <item>@string/contract</item>
-        <item>@string/projects</item>
-        <item>@string/nityaseva</item>
-        <item>@string/sevapuja</item>
-        <item>@string/goseva</item>
-        <item>@string/service</item>
+        <item>@string/contract_details</item>
+        <item>@string/projects_details</item>
+        <item>@string/nityaseva_details</item>
+        <item>@string/sevapuja_details</item>
+        <item>@string/goseva_details</item>
+        <item>@string/service_details</item>
     </string-array>
 
        <string-array name="donate_links">

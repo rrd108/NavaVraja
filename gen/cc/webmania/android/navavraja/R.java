@@ -17,16 +17,14 @@ public final class R {
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
-
-         Customize dimensions originally defined in res/values/dimens.xml (such as
-         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
-    
          */
         public static final int activity_horizontal_margin=0x7f050000;
         public static final int activity_vertical_margin=0x7f050001;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int distance_backgroung=0x7f020000;
+        public static final int distance_bg=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
     }
     public static final class id {
         public static final int aWeb=0x7f090005;
@@ -56,25 +54,35 @@ public final class R {
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
         public static final int blog=0x7f06000d;
-        public static final int contract=0x7f06000f;
+        public static final int contract=0x7f060010;
+        public static final int contract_details=0x7f060016;
         public static final int darshan=0x7f06000b;
         public static final int distance=0x7f06000a;
         public static final int donate=0x7f06000e;
         public static final int dontknow=0x7f060004;
         public static final int fromRS=0x7f060006;
-        public static final int goseva=0x7f060013;
-        public static final int nityaseva=0x7f060011;
+        public static final int goseva=0x7f060014;
+        public static final int goseva_details=0x7f06001a;
+        public static final int gps_in_use=0x7f060021;
+        public static final int i_donate=0x7f06000f;
+        public static final int network_in_use=0x7f060020;
+        public static final int nityaseva=0x7f060012;
+        public static final int nityaseva_details=0x7f060018;
         public static final int no=0x7f060009;
         public static final int no_location_tap_here=0x7f060002;
         public static final int podcast=0x7f06000c;
-        public static final int projects=0x7f060010;
+        public static final int projects=0x7f060011;
+        public static final int projects_details=0x7f060017;
         public static final int requestUserEnabling=0x7f060007;
         public static final int search_location=0x7f060003;
-        public static final int service=0x7f060014;
-        public static final int sevapuja=0x7f060012;
-        public static final int url_blog=0x7f060017;
-        public static final int url_darshan=0x7f060015;
-        public static final int url_podcast=0x7f060016;
+        public static final int service=0x7f060015;
+        public static final int service_details=0x7f06001b;
+        public static final int sevapuja=0x7f060013;
+        public static final int sevapuja_details=0x7f060019;
+        public static final int url_blog=0x7f06001e;
+        public static final int url_darshan=0x7f06001c;
+        public static final int url_paypal=0x7f06001f;
+        public static final int url_podcast=0x7f06001d;
         public static final int yes=0x7f060008;
         public static final int you_are=0x7f060005;
     }

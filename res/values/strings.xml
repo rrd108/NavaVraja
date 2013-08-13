@@ -3,11 +3,14 @@
 
     <string name="app_name">Nava Vraja</string>
     <string name="action_settings">Settings</string>
+    
     <string name="no_location_tap_here">Location info not available. Tap here to enable.</string>
     <string name="search_location">searching..</string>
     <string name="dontknow">\? m</string>
+    
     <string name="you_are">You are</string>
     <string name="fromRS">from Radhe-Syama</string>
+    
     <string name="requestUserEnabling">Your %s location service seems to be disabled, do you want to enable it?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -16,13 +19,27 @@
     <string name="podcast">Podcast</string>
     <string name="blog">Blog</string>
     <string name="donate">Donate</string>
+    <string name="i_donate">Donate</string>
+    
     <string name="contract">Radhe-Syama Contract</string>
     <string name="projects">Projects</string>
     <string name="nityaseva">Nitya-seva</string>
     <string name="sevapuja">Seva-puja</string>
     <string name="goseva">Go seva</string>
     <string name="service">Service</string>
+    
+    <string name="contract_details">The Radhe-Syama contract is between Sri Sri Radha-Syamasundara and Their devotees. It is a written contract, whereby the devotee takes responsibility for the worship of Radhe-Syama. Have you signed your contract yet?</string>
+    <string name="projects_details">Projects</string>
+    <string name="nityaseva_details">A unique opportunity to worship the Deities daily. All puja is performed in the name of the person who enters into a financial contract with Radha-Syama on a special day that they choose (ie; a birthday, anniversary, etc). The total amount of the Nitya-seva is € 5,001 in one sum, and € 5,501 if paid monthly.</string>
+    <string name="sevapuja_details">The Seva-puja covers the expenses of Deity worship for one day, which can be performed in your name as well. The amount of this is € 251. If a monthly payment is troublesome, arrange with your bank to make regular transfers. This way your payment is made at a pre-scheduled time, with no hassle for you. This makes things easier both for you and us as well.</string>
+    <string name="goseva_details">Go seva</string>
+    <string name="service_details">Srila Sivarama Maharaja requests all devotees to come to New Vraja-Dhama for a fortnight and render service to the Deities for that period of time. Second initiated devotees are warmly welcomed to help with the Deity worship, first initiated devotees and devotees without initiation are gladly greeted to render some service in the maintenance of the temple (cleaning, making garlands, etc.) or in the Deities gardens. Make a plan in your calendar now as to when you will be coming to serve Radhe-Syama, and check with us for the arrangement of your service.</string>
+    
     <string name="url_darshan">http://m.flickr.com/#/photos/krisnavolgy/sets/72157623643515088/</string>
     <string name="url_podcast">http://www.sivaramaswami.com/en/</string>
     <string name="url_blog">http://navavrajadhama.com/blog/</string>
+    <string name="url_paypal">https://www.paypal.com/cgi-bin/webscr\?cmd=_s-xclick&amp;hosted_button_id=CPV5JK3MG7XTU</string>
+    
+    <string name="network_in_use">Network location in use</string>
+    <string name="gps_in_use">GPS location in use</string>
 </resources>

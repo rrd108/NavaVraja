@@ -28,7 +28,6 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -38,8 +37,8 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
 	private static final long minTime = 2000;		//2000 milliseconds = 2sec
 	private float minDistance = 10;					//10 meters
 
-	private double rsLng = 17.700382;
-	private double rsLat = 46.567255;
+	private double rsLng = 17.700364;
+	private double rsLat = 46.567181;
 	
 	private AppSectionsPagerAdapter azAppSectionsPagerAdapter;
     private ViewPager aViewPager;
@@ -49,7 +48,8 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
 	private static TextView myLocationTextView = null;
 	private static TextView infoTextView = null;
 	private Boolean gpsRequestAsked = false;
-	private static int enabledProviders = 0;
+	private static boolean enabled_network = false;
+	private static boolean enabled_gps = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,22 +57,181 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
-        createTabNavigation();
 		createLocationStuff();
+        createTabNavigation();
 	}
 
 	protected void createLocationStuff() {
 		String context = Context.LOCATION_SERVICE;
-		locationManager = (LocationManager)getSystemService(context);
-				
-		provider = setProvider();
-		
-		Log.w("Nava Vraja", "provider: " + provider);
-		locationManager.requestLocationUpdates(provider, minTime, minDistance, locationListener);
-		Location location = locationManager.getLastKnownLocation(provider);
-		distance = getDistanceFromRS(location);
+		locationManager = (LocationManager)getSystemService(context);				
+		initiateLocationListener();
 	}
 
+	protected void initiateLocationListener() {
+		provider = setProvider();
+		Log.w("Nava Vraja", "provider: " + provider);
+		if(provider != null){
+			locationManager.requestLocationUpdates(provider, minTime, minDistance, locationListener);
+			Location location = locationManager.getLastKnownLocation(provider);
+			distance = getDistanceFromRS(location);
+		}
+		else{
+			distance = getString(R.string.dontknow);
+		}
+		setDistanceText(distance);
+	}
+
+	protected String setProvider() {
+		Log.w("Nava Vraja", "setProvider() called");
+		String providr = null;
+		/* TODO
+		 * Esetek:
+		 * 		1. network +, gps +		distance > 5km network, distance < 5km gps
+		 * 		2. network +, gps -		distance > 5km network, distance < 5km request enable gps
+		 * 		3. network -, gps +		use gps
+		 * 		4. network -, gps -		request enabling and add an info box at the bottom that first tab will not work
+		 */
+		if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+			enabled_network = true;
+		}
+		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+			enabled_gps = true;
+		}
+		if(enabled_network){
+			providr = locationManager.NETWORK_PROVIDER;	//first network, as this is fast 
+		}
+		else if(enabled_gps){
+			providr = locationManager.GPS_PROVIDER;
+		}
+		Log.w("Nava Vraja", "setProvider() returned " + providr);
+		return providr;
+	}
+	
+	private final LocationListener locationListener = new LocationListener() {
+				
+		public void onLocationChanged(Location location) {
+			Log.w("Nava Vraja","onLocationChanged() called");
+			distance = getDistanceFromRS(location);
+			setDistanceText(distance);
+		}
+		
+		public void onProviderDisabled(String providr){
+			Log.w("Nava Vraja", "onProviderDisabled(" + providr + ")");
+			if(providr == LocationManager.NETWORK_PROVIDER)
+				enabled_network = false;
+			if(providr == LocationManager.GPS_PROVIDER)
+				enabled_gps = false;
+			if(!enabled_network && !enabled_gps){
+				if(infoTextView != null)
+					infoTextView.setText(R.string.no_location_tap_here);
+			}
+		}
+		
+		public void onProviderEnabled(String providr){
+			Log.w("Nava Vraja", "onProviderEnabled(" + providr + ")");
+			//providr = setProvider();
+		}
+		
+		public void onStatusChanged(String providr, int status, Bundle extras){
+			Log.w("Nava Vraja", "onStatusChanged(" + providr + ")");
+		}
+	};
+	
+	private CharSequence getDistanceFromRS(Location location) {
+		Log.w("Nava Vraja", "getDistanceFromRS() called");
+		CharSequence dist = "";
+		double lat = 0;
+		double lon = 0;
+		if (location != null) {
+			lat = location.getLatitude();
+			lon = location.getLongitude();
+			Log.w("Nava Vraja", "Lat/Lon: " + lat + " / " + lon);
+			
+			try {
+				float[] results = new float[1];
+				Location.distanceBetween(rsLat, rsLng, lat, lon, results);
+				
+				int distance = Math.round(results[0]);
+				/*if(distance < 5000){
+					//ha 5km-en belül van és ki van kapcsolva a gps akkor alul azt mondja, hogy no loation available
+					if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+						requestUserEnableLocationService(LocationManager.GPS_PROVIDER);
+					}
+					locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+				}*/
+				if(distance > 1000){
+					dist = distance/1000 + " km";
+				}
+				else{
+					dist = distance + " m";
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else{
+			dist = getString(R.string.dontknow);
+		}
+		return dist;
+	}
+
+	protected void setDistanceText(CharSequence dist) {
+        if (myLocationTextView != null){
+        	myLocationTextView.setText(dist);
+        }
+	}
+			
+    private void requestUserEnableLocationService(String providr) {
+    	if(!gpsRequestAsked){
+    		//gpsRequestAsked = true;
+	    	Log.w("Nava Vraja", "requestUserEnableLocationService(" + providr + ") called");
+			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		    builder.setMessage(getString(R.string.requestUserEnabling, providr))
+		           .setCancelable(false)
+		           .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+		               public void onClick(final DialogInterface dialog, final int id) {
+		                   startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+		               }
+		           })
+		           .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+		               public void onClick(final DialogInterface dialog, final int id) {
+		                    dialog.cancel();
+		               }
+		           });
+		    final AlertDialog alert = builder.create();
+		    alert.show();
+    	}
+	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		initiateLocationListener();
+	}
+	
+	@Override
+	protected void onStop(){
+		Log.w("Nava Vraja", "onStop() called");
+		super.onStop();
+	}
+	
+	public void onClick(View v) {
+		Log.w("Nava Vraja", "onClick(" + v.getId() + ") called");
+		if(v.getId() == R.id.infoText && !enabled_network && !enabled_gps)
+			requestUserEnableLocationService(locationManager.NETWORK_PROVIDER);
+    }  
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		Log.w("Nava Vraja", "onCreateOptionsMenu() called");
+		getMenuInflater().inflate(R.menu.nava_vraja, menu);
+		return true;
+	}
+	
+
+	//-----------------------------------------------------
+	
+	
 	protected void createTabNavigation() {
 		// Create the adapter that will return a fragment for each of the three primary sections
         // of the app.
@@ -109,152 +268,7 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
         }
 	}
 
-	protected String setProvider() {
-		Log.w("Nava Vraja", "setProvider() called");
-		String provider = null;
-		if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
-			provider = locationManager.NETWORK_PROVIDER;		//first network, as this is fast
-			enabledProviders++;
-		}
-		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-			if(enabledProviders == 0)	//network is disabled, gps is enabled
-				provider = locationManager.GPS_PROVIDER;
-			enabledProviders++;
-		}
-		if(enabledProviders <= 0){
-			//none of the providers enabled, ask the user to enable at least network
-			provider = locationManager.NETWORK_PROVIDER;		//listen to network better chance this will be enabled
-			requestUserEnableLocationService(locationManager.NETWORK_PROVIDER);
-		}
-		return provider;
-	}
-
-	private final LocationListener locationListener = new LocationListener() {
-		
-		/*
-		 * Esetek:
-		 * 		1. network +, gps +		distance > 5km network, distance < 5km gps
-		 * 		2. network +, gps -		distance > 5km network, distance < 5km request enable gps
-		 * 		3. network -, gps +		use gps
-		 * 		4. network -, gps -		request enabling and add an info box at the bottom that first tab will not work
-		 */
-		
-		public void onLocationChanged(Location location) {
-			Log.w("Nava Vraja","onLocationChanged() called");
-			getDistanceFromRS(location);
-		}
-		
-		public void onProviderDisabled(String provider){
-			Log.w("Nava Vraja", "onProviderDisabled(" + provider + ")");
-			enabledProviders--;
-			if(enabledProviders <= 0){
-				if(infoTextView != null)
-					infoTextView.setText(R.string.no_location_tap_here);
-			}
-		}
-		
-		public void onProviderEnabled(String provider){
-			Log.w("Nava Vraja", "onProviderEnabled(" + provider + ")");
-			enabledProviders++;
-			Location location = locationManager.getLastKnownLocation(provider);
-			distance = getDistanceFromRS(location);
-		}
-		
-		public void onStatusChanged(String provider, int status, Bundle extras){
-			Log.w("Nava Vraja", "onStatusChanged(" + provider + ")");
-		}
-	};
-	
-	@Override
-	protected void onResume(){
-		super.onResume();
-		provider = setProvider();
-	}
-	
-	@Override
-	protected void onStop(){
-		Log.w("Nava Vraja", "onStop() called");
-		//locationManager.removeUpdates(locationListener);
-		super.onStop();
-	}
-	
-	public void onClick(View v) {
-		Log.w("Nava Vraja", "onClick(" + v.getId() + ") called");
-		if(v.getId() == R.id.infoText)
-			requestUserEnableLocationService(locationManager.NETWORK_PROVIDER);
-    }  
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		Log.w("Nava Vraja", "onCreateOptionsMenu() called");
-		getMenuInflater().inflate(R.menu.nava_vraja, menu);
-		return true;
-	}
-	
-	private CharSequence getDistanceFromRS(Location location) {
-		Log.w("Nava Vraja", "getDistanceFromRS() called");
-		CharSequence dist = "";
-		double lat = 0;
-		double lon = 0;
-		if (location != null) {
-			lat = location.getLatitude();
-			lon = location.getLongitude();
-			Log.w("Nava Vraja", "Lat/Lon: " + lat + " / " + lon);
-			
-			try {
-				float[] results = new float[1];
-				Location.distanceBetween(rsLat, rsLng, lat, lon, results);
-				
-				int distance = Math.round(results[0]);
-				if(distance < 5000){
-					//ha 5km-en belül van és ki van kapcsolva a gps akkor alul azt mondja, hogy no loation available
-					if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-						requestUserEnableLocationService(LocationManager.GPS_PROVIDER);
-					}
-					locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-				}
-				if(distance > 1000){
-					dist = distance/1000 + " km";
-				}
-				else{
-					dist = distance + " m";
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		else{
-			dist = getString(R.string.dontknow);
-		}
-        if (myLocationTextView != null){
-        	myLocationTextView.setText(dist);
-    		infoTextView.setText(provider + " Lat/Lon: " + lat + " / " + lon + "\n" + enabledProviders);
-        }
-		return dist;
-	}
-			
-    private void requestUserEnableLocationService(String provider) {
-    	if(!gpsRequestAsked){
-    		gpsRequestAsked = true;
-	    	Log.w("Nava Vraja", "requestUserEnableLocationService(" + provider + ") called");
-			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		    builder.setMessage(getString(R.string.requestUserEnabling, provider))
-		           .setCancelable(false)
-		           .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-		               public void onClick(final DialogInterface dialog, final int id) {
-		                   startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-		               }
-		           })
-		           .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-		               public void onClick(final DialogInterface dialog, final int id) {
-		                    dialog.cancel();
-		               }
-		           });
-		    final AlertDialog alert = builder.create();
-		    alert.show();
-    	}
-	}
-
+    
 	@Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 		Log.w("Nava Vraja", "onTabUnselected() called");
@@ -350,11 +364,14 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
 	                myLocationTextView.setText(distance);
 	                
 	                infoTextView = ((TextView) rootView.findViewById(R.id.infoText));
-	                if(enabledProviders <= 0){
+	                if(!enabled_network && !enabled_gps){
 	                	infoTextView.setText(R.string.no_location_tap_here);
 	                }
+	                else if(enabled_network){
+	                	infoTextView.setText(getString(R.string.network_in_use));
+	                }
 	                else{
-	                	infoTextView.setText("");
+	                	infoTextView.setText(getString(R.string.gps_in_use));
 	                }
 	                break;
 				case 1:
@@ -406,6 +423,7 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
 	    		            progressBar.setVisibility(View.GONE);
 	    		        }
 	    			});
+	    			//myWebView.clearCache(true);
 	    			myWebView.loadUrl(url);
 	                break;
 				case 3:
@@ -445,6 +463,4 @@ public class NavaVraja extends FragmentActivity implements ActionBar.TabListener
     		startActivity(intent);
     	}
     }
-
-  
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cc.webmania.android.navavraja"
-    android:versionCode="8"
+    android:versionCode="10"
     android:versionName="1.0" >
 
     <uses-sdk
@@ -25,8 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="cc.webmania.android.navavraja.DonateDetail"
-            android:label="@string/contract" >
+            android:name="cc.webmania.android.navavraja.DonateDetail">
             <intent-filter>
                 <action android:name="cc.webmania.android.navavraja.DONATE_DETAIL" />
                 <category android:name="android.intent.category.DEFAULT" />
