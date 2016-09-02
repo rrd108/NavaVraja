@@ -9,7 +9,7 @@
     <string name="dontknow">\? m</string>
     
     <string name="you_are">A távolságod</string>
-    <string name="fromRS">Radhe-Syamatól</string>
+    <string name="fromRS">Rādhe-Syāmatól</string>
     
     <string name="requestUserEnabling">A %s helyszolgáltatás le van tiltva. Szeretnéd bekapcsolni?</string>
     <string name="yes">Igen</string>
@@ -21,19 +21,19 @@
     <string name="donate">Adományok</string>
     <string name="i_donate">Adományozok</string>
     
-    <string name="contract">Radhe-Syama Szerződés</string>
+    <string name="contract">Rādhe-Syāma Szerződés</string>
     <string name="projects">Projektek</string>
-    <string name="nityaseva">A Nitya-seva Radhe-Syama egy napi imádatának ÖRÖK támogatását jelenti. Kifejezi a bhakták törődését és gondoskodását a három világ Legszebb Murtijairól, ami a legfőbb, legkiemeltebb ÖRÖK SZOLGÁLATI KAPCSOLAT  Sri Sri Radha-Syamasundarával – még a támogató eltávozása után is. A nitya-seva magában foglalja: a murtik reggeli pujájának támogatását, a napi 6 bhoga-ajánlás támogatását, a napi 6 arati támogatását, a murtik virág füzéreinek és az oltárok virág díszítéseinek támogatását, az imádatot végző pujárik fenntartását. A nitya-seva támogatás összege: 1.108.000.-Ft. A támogatást lehet fizetni részletekben vagy egy összegben is, készpénzben vagy banki utaláson keresztül.</string>
-    <string name="sevapuja">A seva-puja Radhe-Syama napi imádatának támogatását jelenti. Kifejezi a bhakták törődését és gondoskodását a három világ Legszebb Murtijairól, ami a LEGFŐBB, LEGKIEMELTEBB SZOLGÁLATI KAPCSOLAT  Sri Sri Radha-Syamasundarával. A seva-puja magában foglalja: a murtik reggeli pujájának támogatását, a napi 6 bhoga-ajánlás támogatását, a napi 6 arati támogatását, a murtik virág füzéreinek és az oltárok virág díszítéseinek támogatását, az imádatot végző pujárik fenntartását. A seva-puja támogatás összege: 60.000.-Ft. A támogatást lehet fizetni részletekben vagy egy összegben is, készpénzben vagy banki utaláson keresztül.</string>
+    <string name="nityaseva">Nitya-seva</string>
+    <string name="sevapuja">Seva-puja</string>
     <string name="goseva">Go seva</string>
     <string name="service">Szolgálat</string>
     
-    <string name="contract_details">Radhe-Syama Contract</string>
-    <string name="projects_details">Projects</string>
-    <string name="nityaseva_details">Nitya-seva</string>
-    <string name="sevapuja_details">Seva-puja</string>
+    <string name="contract_details">Rādhe-Syāma Szerződés</string>
+    <string name="projects_details">Projektek</string>
+    <string name="nityaseva_details">A Nitya-seva Rādhe-Syāma egy napi imádatának ÖRÖK támogatását jelenti. Kifejezi a bhakták törődését és gondoskodását a három világ Legszebb Murtijairól, ami a legfőbb, legkiemeltebb ÖRÖK SZOLGÁLATI KAPCSOLAT  Sri Sri Radha-Syamasundarával – még a támogató eltávozása után is. A nitya-seva magában foglalja: a murtik reggeli pujájának támogatását, a napi 6 bhoga-ajánlás támogatását, a napi 6 arati támogatását, a murtik virág füzéreinek és az oltárok virág díszítéseinek támogatását, az imádatot végző pujárik fenntartását. A nitya-seva támogatás összege: 1.108.000.-Ft. A támogatást lehet fizetni részletekben vagy egy összegben is, készpénzben vagy banki utaláson keresztül.</string>
+    <string name="sevapuja_details">A seva-puja Rādhe-Syāma napi imádatának támogatását jelenti. Kifejezi a bhakták törődését és gondoskodását a három világ Legszebb Murtijairól, ami a LEGFŐBB, LEGKIEMELTEBB SZOLGÁLATI KAPCSOLAT  Sri Sri Radha-Syamasundarával. A seva-puja magában foglalja: a murtik reggeli pujájának támogatását, a napi 6 bhoga-ajánlás támogatását, a napi 6 arati támogatását, a murtik virág füzéreinek és az oltárok virág díszítéseinek támogatását, az imádatot végző pujárik fenntartását. A seva-puja támogatás összege: 60.000.-Ft. A támogatást lehet fizetni részletekben vagy egy összegben is, készpénzben vagy banki utaláson keresztül.</string>
     <string name="goseva_details">Go seva</string>
-    <string name="service_details">Service</string>
+    <string name="service_details">Szolgálat</string>
 
     <string name="url_podcast">http://www.sivaramaswami.com/hu/</string>
     <string name="url_blog">http://navavrajadhama.hu/blog/</string>

@@ -9,7 +9,7 @@
     <string name="dontknow">\? m</string>
     
     <string name="you_are">You are</string>
-    <string name="fromRS">from Radhe-Syama</string>
+    <string name="fromRS">from Rādhe-Syāma</string>
     
     <string name="requestUserEnabling">Your %s location service seems to be disabled, do you want to enable it?</string>
     <string name="yes">Yes</string>
@@ -21,14 +21,14 @@
     <string name="donate">Donate</string>
     <string name="i_donate">Donate</string>
     
-    <string name="contract">Radhe-Syama Contract</string>
+    <string name="contract">Rādhe-Syāma Contract</string>
     <string name="projects">Projects</string>
     <string name="nityaseva">Nitya-seva</string>
     <string name="sevapuja">Seva-puja</string>
     <string name="goseva">Go seva</string>
     <string name="service">Service</string>
     
-    <string name="contract_details">The Radhe-Syama contract is between Sri Sri Radha-Syamasundara and Their devotees. It is a written contract, whereby the devotee takes responsibility for the worship of Radhe-Syama. Have you signed your contract yet?</string>
+    <string name="contract_details">The Rādhe-Syāma contract is between Sri Sri Radha-Syamasundara and Their devotees. It is a written contract, whereby the devotee takes responsibility for the worship of Radhe-Syama. Have you signed your contract yet?</string>
     <string name="projects_details">Projects</string>
     <string name="nityaseva_details">A unique opportunity to worship the Deities daily. All puja is performed in the name of the person who enters into a financial contract with Radha-Syama on a special day that they choose (ie; a birthday, anniversary, etc). The total amount of the Nitya-seva is € 5,001 in one sum, and € 5,501 if paid monthly.</string>
     <string name="sevapuja_details">The Seva-puja covers the expenses of Deity worship for one day, which can be performed in your name as well. The amount of this is € 251. If a monthly payment is troublesome, arrange with your bank to make regular transfers. This way your payment is made at a pre-scheduled time, with no hassle for you. This makes things easier both for you and us as well.</string>
